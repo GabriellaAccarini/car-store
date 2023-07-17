@@ -3,6 +3,8 @@ from cars.forms import CarModelForm
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 class CarsListView(ListView):
@@ -19,6 +21,12 @@ class CarsListView(ListView):
         return cars
 
 
+class CarDatailView(DetailView):
+    model = Car
+    template_name = 'car_detail.html'
+
+    
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class NewCarCreateView(CreateView):
     model = Car
     form_class = CarModelForm
@@ -26,11 +34,7 @@ class NewCarCreateView(CreateView):
     success_url = '/cars/'
 
 
-class CarDatailView(DetailView):
-    model = Car
-    template_name = 'car_detail.html'
-
-
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class CarUpdateView(UpdateView):
     model = Car
     form_class = CarModelForm
@@ -39,7 +43,8 @@ class CarUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('car_detail', kwargs={'pk': self.object.pk})
 
-        
+
+@method_decorator(login_required(login_url='login'), name='dispatch')        
 class CarDeleteView(DeleteView):
     model = Car
     template_name = 'car_delete.html'
