@@ -6,7 +6,7 @@ def get_car_ai_bio(model, brand, year):
     Fale coisas especificas sobre esse modelo. 
     Descreva especificações técnicas sobre esse modelo
     '''
-    openai.api_key = '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'
+    openai.api_key = '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'
     prompt = prompt.format(brand, model, year)
     response = openai.Completion.create(
         model = 'text-davinci-003',
